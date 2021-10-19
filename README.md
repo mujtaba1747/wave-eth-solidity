@@ -1,5 +1,6 @@
 # wave-eth-solidity
 
+- Part of buildspace's Web3 cohort: `FELIS`
 - To run this you'll need hardhat
 - Create a .env file that looks like this:
 ```bash
