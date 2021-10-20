@@ -4,10 +4,13 @@ pragma solidity ^0.8.0;
 
 import "hardhat/console.sol";
 
-require('dotenv').config();
-
 contract WavePortal {
     uint256 totalWaves;
+
+    /*
+     * We will be using this below to help generate a random number
+     */
+    uint256 private seed;
 
     /*
      * A little magic, Google what events are in Solidity!
@@ -30,7 +33,13 @@ contract WavePortal {
      */
     Wave[] waves;
 
-    constructor() {
+    /*
+     * This is an address => uint mapping, meaning I can associate an address with a number!
+     * In this case, I'll be storing the address with the last time the user waved at us.
+     */
+    mapping(address => uint256) public lastWonAt;
+
+    constructor() payable {
         console.log("I AM SMART CONTRACT. POG.");
     }
 
@@ -48,11 +57,40 @@ contract WavePortal {
          */
         waves.push(Wave(msg.sender, _message, block.timestamp));
 
-        /*
-         * I added some fanciness here, Google it and try to figure out what it is!
-         * Let me know what you learn in #general-chill-chat
+         /*
+         * Generate a Psuedo random number between 0 and 100
          */
-        emit NewWave(msg.sender, block.timestamp, _message);
+        uint256 randomNumber = (block.difficulty + block.timestamp + seed) % 100;
+        console.log("Random # generated: %s", randomNumber);
+
+        /*
+         * Set the generated, random number as the seed for the next wave
+         */
+        seed = randomNumber;
+
+        /*
+         * Give a 5% chance that the user wins the prize. Also you can get the prize every 10 days LOL
+         */
+        if (randomNumber < 5 && lastWonAt[msg.sender] + 14400 minutes < block.timestamp) {
+
+            console.log("%s won!", msg.sender);
+
+            lastWonAt[msg.sender] = block.timestamp;
+
+            /*
+            * I added some fanciness here, Google it and try to figure out what it is!
+            * Let me know what you learn in #general-chill-chat
+            */
+            emit NewWave(msg.sender, block.timestamp, _message);
+
+            uint256 prizeAmount = 0.0001 ether;
+            require(
+                prizeAmount <= address(this).balance,
+                "Trying to withdraw more money than the contract has."
+            );
+            (bool success, ) = (msg.sender).call{value: prizeAmount}("");
+            require(success, "Failed to withdraw money from contract.");
+        }
     }
 
     /*
