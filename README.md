@@ -1,5 +1,7 @@
 # wave-eth-solidity
 
+![Image](/Image.png?raw=true&sanitize=true)
+
 - A simple contract using which you can send a public message/note to the contract owner
 - Part of buildspace's Web3 cohort: `FELIS`
 - To build this you'll need hardhat
