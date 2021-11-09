@@ -8,7 +8,7 @@
 
 - To build this you'll need hardhat
 
-- Create a .env file that looks like this:
+- Create a .env file in the project root that looks like this:
 ```bash
 ALCHEMY_API_KEY="https://eth-rinkeby.alchemyapi.io/v2/API_KEY"
 ETH_PRIVATE_KEY=""
