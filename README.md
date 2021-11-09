@@ -2,9 +2,12 @@
 
 ![Image](/Image.png?raw=true&sanitize=true)
 
+![Image](/Image2.png?raw=true&sanitize=true)
+
 - A simple contract using which you can send a public message/note to the contract owner
-- Part of buildspace's Web3 cohort: `FELIS`
+
 - To build this you'll need hardhat
+
 - Create a .env file that looks like this:
 ```bash
 ALCHEMY_API_KEY="https://eth-rinkeby.alchemyapi.io/v2/API_KEY"
